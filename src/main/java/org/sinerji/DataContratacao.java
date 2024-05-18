@@ -1,4 +1,4 @@
-package org.example;
+package org.sinerji;
 
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
