@@ -1,4 +1,4 @@
-package org.sinerji;
+package org.sinerji.entity;
 
 public class Funcionario{
     private String nome;

@@ -1,4 +1,4 @@
-package org.sinerji;
+package org.sinerji.entity;
 
 import java.util.Map;
 

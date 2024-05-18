@@ -1,5 +1,10 @@
 package org.sinerji;
 
+import org.sinerji.builder.FuncionarioBuilder;
+import org.sinerji.entity.Cargo;
+import org.sinerji.entity.Funcionario;
+import org.sinerji.service.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,19 +95,19 @@ public class Main {
         var q1 = Service.valorTotalPagoNoMes(funcionarios, "03", "2015");
         System.out.println(String.format("Valor mensal gasto no pagamento de salario + benefícios R$%.2f", q1 ));
 
-        var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, "03", "2014"); //OK
+        var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, "03", "2014");
         System.out.println(String.format("Total pago em salário no mês: R$%.2f", q2));
 
         var q3 = Service.totalDeBeneficiosMensal(funcionariosComBeneficios, "01", "2022");
         System.out.println(String.format("Valor mensal destinado aos benefícios: R$%.2f", q3));
 
-        var q4 = Service.maiorSalarioDoMes(funcionarios, "03", "2022"); //OK
+        var q4 = Service.maiorSalarioDoMes(funcionarios, "03", "2022");
         System.out.println("Maior salário do mês: " + q4);
 
-        var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, "03", "2021"); //OK
+        var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, "03", "2021");
         System.out.println("Funcionarios com a maior quantidade de benefícios: " + q5.getNome());
 
-        var q6 = Service.vendedorDoMes(vendedores, "12", "2021"); //OK
+        var q6 = Service.vendedorDoMes(vendedores, "12", "2021");
         System.out.println("Vendedor(a) do Mês: " + q6);
     }
 }

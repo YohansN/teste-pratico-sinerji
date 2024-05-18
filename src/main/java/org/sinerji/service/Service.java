@@ -1,4 +1,8 @@
-package org.sinerji;
+package org.sinerji.service;
+
+import org.sinerji.entity.Funcionario;
+import org.sinerji.entity.Salario;
+import org.sinerji.entity.Vendedor;
 
 import java.time.YearMonth;
 import java.util.List;
