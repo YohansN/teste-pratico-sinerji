@@ -13,7 +13,7 @@ public class Salario {
     private Double valorBeneficio; //Valor de beneficio
     private Double salarioComBeneficio; //Salario somado com beneficio
 
-    public Salario(Cargo cargo, int anosContratado) {
+    public Salario(Cargo cargo, float anosContratado) {
 
         if(cargo == Cargo.secretario){
             this.valor = 7000d;
@@ -39,13 +39,13 @@ public class Salario {
         }
     }
 
-    private Double calcularSalarioTotal(double valor, double bonus, int anosContratado){
-        if(anosContratado > 0){
-            return valor + bonus * anosContratado;
-        }else if(anosContratado < 0){
+    private Double calcularSalarioTotal(double valor, double bonus, float anosContratado){
+        if(anosContratado >= 1){ //Já é contratado com 1+ anos de serviço
+            return valor + bonus * (int) anosContratado;
+        }else if(anosContratado < 0){ //Ainda não foi contratado
             return 0d;
         }
-        return valor;
+        return valor; //Foi contratado mas ainda não tem 1 ano de serviço.
     }
 
     public static Double calcularSalarioNaData(Funcionario funcionario, YearMonth dataDoPagamento){
@@ -53,33 +53,31 @@ public class Salario {
         //Calcula o total do salario dessa data e retorna.
 
         YearMonth dataContratacao = funcionario.getDataContratacao().getData();
-        long anos = dataContratacao.until(dataDoPagamento, ChronoUnit.YEARS);
+        long meses = dataContratacao.until(dataDoPagamento, ChronoUnit.MONTHS);
+        float anosContratado = meses / 12f;
 
-        if(anos > 0){
-            return funcionario.getSalario().getValor() + funcionario.getSalario().getBonus() * anos;
-        }else if(anos < 0){
+        if(anosContratado >= 1){ //Já é contratado com 1+ anos de serviço
+            return funcionario.getSalario().getValor() + funcionario.getSalario().getBonus() * (int) anosContratado;
+        }else if(anosContratado < 0){ //Ainda não foi contratado
             return 0d;
         }
-        return funcionario.getSalario().getValor();
+        return funcionario.getSalario().getValor(); //Foi contratado mas ainda não tem 1 ano de serviço.
     }
 
     public static Double calcularBeneficioNaData(Funcionario funcionario, YearMonth dataDoPagamento){
         //dataDoPagamento - data de contratacao.
         //Calcula o beneficio dessa data e retorna.
 
-        if(funcionario.getCargo() == Cargo.secretario){
-            //Beneficio em cima do salario
-            return funcionario.getSalario().getSalarioTotal() * funcionario.getSalario().getBeneficio();
-        }else if(funcionario.getCargo() == Cargo.vendedor){
-            //Beneficio em cima das vendas do mes
+        if(funcionario.getCargo() == Cargo.secretario){ //Beneficio em cima do salario
+            return calcularSalarioNaData(funcionario, dataDoPagamento) * funcionario.getSalario().getBeneficio(); //Pega o salario na data e multiplica pelo beneficio
+        }else if(funcionario.getCargo() == Cargo.vendedor){ //Beneficio em cima das vendas do mes
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
             var dataFormatada = dataDoPagamento.format(formatter);
 
-            double valorVendaDoMes = ((Vendedor) funcionario).getVendasPorMes(dataFormatada);
+            double valorVendaDoMes = ((Vendedor) funcionario).getVendasPorMesOrDefaultZero(dataFormatada);
             return funcionario.getSalario().getBeneficio() * valorVendaDoMes;
         }
-        else if(funcionario.getCargo() == Cargo.gerente){
-            //Sem beneficio
+        else if(funcionario.getCargo() == Cargo.gerente){//Sem beneficio
             return 0d;
         }
         throw new RuntimeException("ERRO: Este cargo não é definido.");
