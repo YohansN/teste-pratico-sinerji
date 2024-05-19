@@ -8,6 +8,7 @@ import org.sinerji.service.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -90,24 +91,91 @@ public class Main {
         funcionariosComBeneficios.add(anaSilva);
         funcionariosComBeneficios.add(joaoMendes);
 
-
-        //Chamando os métodos da service:
-        var q1 = Service.valorTotalPagoNoMes(funcionarios, "03", "2015");
-        System.out.println(String.format("Valor mensal gasto no pagamento de salario + benefícios R$%.2f", q1 ));
-
-        var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, "03", "2014");
-        System.out.println(String.format("Total pago em salário no mês: R$%.2f", q2));
-
-        var q3 = Service.totalDeBeneficiosMensal(funcionariosComBeneficios, "01", "2022");
-        System.out.println(String.format("Valor mensal destinado aos benefícios: R$%.2f", q3));
-
-        var q4 = Service.maiorSalarioDoMes(funcionarios, "03", "2022");
-        System.out.println("Maior salário do mês: " + q4);
-
-        var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, "03", "2021");
-        System.out.println("Funcionarios com a maior quantidade de benefícios: " + q5.getNome());
-
-        var q6 = Service.vendedorDoMes(vendedores, "12", "2021");
-        System.out.println("Vendedor(a) do Mês: " + q6);
+        menu(funcionarios, funcionariosComBeneficios, vendedores);
     }
+
+    public static void menu(List<Funcionario> funcionarios, List<Funcionario> funcionariosComBeneficios, List<Funcionario> vendedores){
+        Scanner scanner = new Scanner(System.in);
+        boolean continuar = true;
+        System.out.println(
+                "  ___ ___ _  _ ___ ___    _ ___ \n" +
+                " / __|_ _| \\| | __| _ \\_ | |_ _|\n" +
+                " \\__ \\| || .` | _||   / || || | \n" +
+                " |___/___|_|\\_|___|_|_\\\\__/|___|\n" +
+                " +===========================================+\n" +
+                " | SOFTWARE DE GESTÃO FINANCEIRA EMPRESARIAL |\n" +
+                " +===========================================+");
+        while(continuar){
+            System.out.println("Opções de busca:\n" +
+                    "1 - Valor total pago (salário + Beneficio) de todos os funcionários em determinada data.\n" +
+                    "2 - Total pago em salário a todos os funcionários em determinada data.\n" +
+                    "3 - Total pago em benefícios a todos os funcionários em determinada data.\n" +
+                    "4 - Funcionário com maior pagamento em determinada data.\n" +
+                    "5 - Funcionário com maior valor em benefício em determinada data.\n" +
+                    "6 - Vendedor com maior valor em vendas em determinada data.\n" +
+                    "7 - SAIR.\n" +
+                    "Digite um número de 1 a 7 para escolher.");
+            int option = scanner.nextInt();
+
+            switch (option){
+                case 1:
+                    System.out.print("Opção escolhida: \nValor total pago (salário + Beneficio) de todos os funcionários em determinada data.\nDigite o mês: ");
+                    int mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    int ano = scanner.nextInt();
+                    var q1 = Service.valorTotalPagoNoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Valor mensal gasto no pagamento de salario + benefícios: R$%.2f%n", q1 );
+                    break;
+                case 2:
+                    System.out.print("Opção escolhida: \nTotal pago em salário a todos os funcionários em determinada data. \nDigite o mês: ");
+                    mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    ano = scanner.nextInt();
+                    var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Total pago em salário no mês: R$%.2f%n", q2);
+                    break;
+                case 3:
+                    System.out.print("Opção escolhida: \nTotal pago em benefícios a todos os funcionários em determinada data. \nDigite o mês: ");
+                    mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    ano = scanner.nextInt();
+                    var q3 = Service.totalDeBeneficiosMensal(funcionariosComBeneficios, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Valor mensal destinado aos benefícios: R$%.2f%n", q3);
+                    break;
+                case 4:
+                    System.out.print("Opção escolhida: \nFuncionário com maior pagamento em determinada data. \nDigite o mês: ");
+                    mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    ano = scanner.nextInt();
+                    var q4 = Service.maiorSalarioDoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Funcionário: " + q4);
+                    break;
+                case 5:
+                    System.out.print("Opção escolhida: \nFuncionário com maior valor em benefício em determinada data. \nDigite o mês: ");
+                    mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    ano = scanner.nextInt();
+                    var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Funcionarios com a maior quantidade de benefícios: " + q5.getNome());
+                    break;
+                case 6:
+                    System.out.println("Opção escolhida: \nVendedor com maior valor em vendas em determinada data.\n" +
+                            "*Datas disponìveis para consulta: 12/2021 à 04/2022\nDigite o mês: ");
+                    mes = scanner.nextInt();
+                    System.out.print("Digite o ano: ");
+                    ano = scanner.nextInt();
+                    var q6 = Service.vendedorDoMes(vendedores, String.valueOf(mes), String.valueOf(ano));
+                    System.out.printf("Vendedor(a) do Mês: " + q6);
+                    break;
+                case 7:
+                    continuar = false;
+                    System.out.println("SAINDO DA APLICAÇÃO");
+                    break;
+                default:
+                    System.out.println("Valor invalido. Tente novamente.\n");
+            }
+        }
+
+    }
+
 }
