@@ -1,5 +1,7 @@
 package org.sinerji.entity;
 
+import org.sinerji.exception.SemRegistroDeVendaException;
+
 import java.util.Map;
 
 public class Vendedor extends Funcionario{
@@ -18,10 +20,27 @@ public class Vendedor extends Funcionario{
         return vendasPorMes;
     }
 
-    public Double getVendasPorMes(String data) {
-        if (vendasPorMes.containsKey(data))
+    private Double getVendasPorMes(String data) {
+        if (vendasPorMes.containsKey(data)) {
             return vendasPorMes.get(data);
-        return 0d;
+        }
+        return null; // Retorna null se a chave não for encontrada
+    }
+
+    public Double getVendasPorMesOrThrow(String data) {
+        Double resultado = getVendasPorMes(data);
+        if (resultado == null) {
+            throw new SemRegistroDeVendaException(data);
+        }
+        return resultado;
+    }
+
+    public Double getVendasPorMesOrDefaultZero(String data) {
+        Double resultado = getVendasPorMes(data);
+        if (resultado == null) {
+            return 0d;
+        }
+        return resultado;
     }
 
     public void setVendasPorMes(Map<String, Double> vendasPorMes) {
