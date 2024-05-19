@@ -7,7 +7,7 @@ public class DataContratacao {
     private int mes;
     private int ano;
     private YearMonth data;
-    private int tempoNaEmpresa;
+    private float tempoNaEmpresa;
 
     public DataContratacao(int mes, int ano) {
         this.mes = mes;
@@ -28,14 +28,15 @@ public class DataContratacao {
         return data;
     }
 
-    public int getTempoNaEmpresa() {
+    public float getTempoNaEmpresa() {
         return tempoNaEmpresa;
     }
 
-    private int tempoTotalDeContratacao(YearMonth dataContratacao){ //Calcula quantos anos o funcionario tem contratado.
+    private float tempoTotalDeContratacao(YearMonth dataContratacao){ //Calcula quantos anos o funcionario tem contratado.
         YearMonth dataAtual = YearMonth.now();
-        long anosContratado = dataContratacao.until(dataAtual, ChronoUnit.YEARS);
-        return (int) anosContratado;
+        long mesesContratado = dataContratacao.until(dataAtual, ChronoUnit.MONTHS);
+        float anosContratado = mesesContratado / 12f;
+        return anosContratado;
     }
 
     @Override
