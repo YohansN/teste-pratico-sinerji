@@ -3,12 +3,10 @@ package org.sinerji;
 import org.sinerji.builder.FuncionarioBuilder;
 import org.sinerji.entity.Cargo;
 import org.sinerji.entity.Funcionario;
+import org.sinerji.exception.EntradaInvalidaException;
 import org.sinerji.service.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -115,7 +113,12 @@ public class Main {
                     "6 - Vendedor com maior valor em vendas em determinada data.\n" +
                     "7 - SAIR.\n" +
                     "Digite um número de 1 a 7 para escolher.");
-            int option = scanner.nextInt();
+            int option = 0;
+            try {
+                option = scanner.nextInt();
+            }catch (InputMismatchException ex){
+                throw new EntradaInvalidaException();
+            }
 
             switch (option){
                 case 1:
