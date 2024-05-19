@@ -3,8 +3,10 @@ package org.sinerji.service;
 import org.sinerji.entity.Funcionario;
 import org.sinerji.entity.Salario;
 import org.sinerji.entity.Vendedor;
+import org.sinerji.exception.DataInvalidaException;
 
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Service {
@@ -14,12 +16,17 @@ public class Service {
         Método 01: Um método que receba uma lista de funcionários, mês e ano e retorne o valor total
         pago (salário e benefício) a esses funcionários no mês.
     */
-    static public Double valorTotalPagoNoMes(List<Funcionario> funcionarios, String mes, String ano){
+    static public double valorTotalPagoNoMes(List<Funcionario> funcionarios, String mes, String ano){
+        YearMonth dataDoPagamento = null;
+        try {
+            dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
 
-        YearMonth dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
-        Double valorDeSalariosEBeneficiosTotais = 0d;
-        Double beneficiosTotais = 0d;
-        Double salariosTotais = 0d;
+        double valorDeSalariosEBeneficiosTotais = 0d;
+        double beneficiosTotais = 0d;
+        double salariosTotais = 0d;
 
         for(Funcionario funcionario : funcionarios){
             var salarioLiquido = Salario.calcularSalarioNaData(funcionario, dataDoPagamento);
@@ -37,12 +44,18 @@ public class Service {
         Método 02: Um método que receba uma lista de funcionários,
         mês e ano e retorne o total pago somente em salários no mês
     */
-    static public Double valorSalarialTotalPagoNoMes(List<Funcionario> funcionarios, String mes, String ano){
-        YearMonth dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+    static public double valorSalarialTotalPagoNoMes(List<Funcionario> funcionarios, String mes, String ano){
+        YearMonth dataDoPagamento = null;
+        try {
+            dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
 
-        Double totalPagoNoMes = 0d;
+        double totalPagoNoMes = 0d;
+
         for(Funcionario funcionario : funcionarios){
-            Double totalPagoNaData = Salario.calcularSalarioNaData(funcionario, dataDoPagamento);
+            double totalPagoNaData = Salario.calcularSalarioNaData(funcionario, dataDoPagamento);
             totalPagoNoMes+= totalPagoNaData;
         }
         return totalPagoNoMes;
@@ -52,9 +65,14 @@ public class Service {
         Método 03: Um método que receba uma lista somente com os funcionários que recebem
         benefícios, mês e ano e retorne o total pago em benefícios no mês
     */
-    static public Double totalDeBeneficiosMensal(List<Funcionario> funcionarios, String mes, String ano){
-        YearMonth dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
-        Double valorTotalEmBonificacaoMensal = 0d;
+    static public double totalDeBeneficiosMensal(List<Funcionario> funcionarios, String mes, String ano){
+        YearMonth dataDoPagamento = null;
+        try {
+            dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
+        double valorTotalEmBonificacaoMensal = 0d;
 
         for(Funcionario funcionario : funcionarios){
             valorTotalEmBonificacaoMensal += Salario.calcularBeneficioNaData(funcionario, dataDoPagamento);
@@ -68,18 +86,26 @@ public class Service {
         mês e ano e retorne o que recebeu o valor mais alto no mês.
     */
     static public String maiorSalarioDoMes(List<Funcionario> funcionarios, String mes, String ano){
-        YearMonth dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        YearMonth dataDoPagamento = null;
+        try {
+            dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
+
         double valorInicial = 0d;
-        String funcionarioComMaiorSalarioDoMes = "";
+        String funcionarioComMaiorPagamentoNoMes = "";
 
         for(Funcionario funcionario : funcionarios){
-            Double salarioDoFuncionarioNaqueleMes = Salario.calcularSalarioNaData(funcionario, dataDoPagamento);
-            if(salarioDoFuncionarioNaqueleMes >= valorInicial){
-                funcionarioComMaiorSalarioDoMes = funcionario.getNome();
-                valorInicial = salarioDoFuncionarioNaqueleMes;
+            double totalEmSalario = Salario.calcularSalarioNaData(funcionario, dataDoPagamento);
+            double totalEmBeneficio = Salario.calcularBeneficioNaData(funcionario, dataDoPagamento);
+            double ValorTotal = totalEmSalario + totalEmBeneficio;
+            if(ValorTotal >= valorInicial){
+                funcionarioComMaiorPagamentoNoMes = funcionario.getNome();
+                valorInicial = ValorTotal;
             }
         }
-        return funcionarioComMaiorSalarioDoMes + " - Salário: R$:" + valorInicial;
+        return funcionarioComMaiorPagamentoNoMes + " - Pagamento: R$:" + valorInicial;
     }
 
     /*
@@ -88,11 +114,18 @@ public class Service {
         alto em benefícios no mês
     */
     static public Funcionario maiorBeneficiadoDoMes(List<Funcionario> funcionarios, String mes, String ano){
-        YearMonth dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
-        Double valorInicial = 0d;
+        YearMonth dataDoPagamento = null;
+        try {
+            dataDoPagamento = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
+
+        double valorInicial = 0d;
+
         Funcionario funcionarioComMaisBeneficios = new Funcionario();
         for(Funcionario funcionario : funcionarios){
-            Double aux = Salario.calcularBeneficioNaData(funcionario, dataDoPagamento);
+            double aux = Salario.calcularBeneficioNaData(funcionario, dataDoPagamento);
             if(valorInicial < aux){
                 funcionarioComMaisBeneficios = funcionario;
                 valorInicial = aux;
@@ -106,12 +139,21 @@ public class Service {
         Método 06: Um método que receba uma lista de vendedores, mês e ano e retorne o que mais vendeu no mês.
     */
     static public String vendedorDoMes(List<Funcionario> vendedores, String mes, String ano){
+        YearMonth data = null;
+        try{
+            data = YearMonth.of(Integer.parseInt(ano), Integer.parseInt(mes));
+        }catch (Exception ex){
+            throw new DataInvalidaException();
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        String dataFormatada = data.format(formatter);
+
         double valorInicial = 0d;
         String vendedorDoMes = "";
-        String dataFormatada = mes + "/" + ano;
 
         for(Funcionario vendedor : vendedores){
-            double valorVenda = ((Vendedor) vendedor).getVendasPorMes(dataFormatada);
+            double valorVenda = ((Vendedor) vendedor).getVendasPorMesOrThrow(dataFormatada);
             if(valorVenda >= valorInicial){
                 vendedorDoMes = vendedor.getNome();
                 valorInicial = valorVenda;

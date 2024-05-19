@@ -6,6 +6,7 @@ Desafio técnico no contexto de gestão financeira de funcionários de uma empre
 - Modelagem de dados e criação de classes com base nas tabelas disponibilizadas.
 - Implementação de métodos requisitados para busca de dados em datas específicas.
 - Menu para melhor visualização das opções de busca.
+- Exceções personalizadas.
 
 ### Opções de pesquisa salarial:
 - Valor total pago (salário + Beneficio) de todos os funcionários em determinada data.

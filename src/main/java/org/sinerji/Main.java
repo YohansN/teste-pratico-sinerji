@@ -106,7 +106,7 @@ public class Main {
                 " | SOFTWARE DE GESTÃO FINANCEIRA EMPRESARIAL |\n" +
                 " +===========================================+");
         while(continuar){
-            System.out.println("Opções de busca:\n" +
+            System.out.println("\nOpções de busca:\n" +
                     "1 - Valor total pago (salário + Beneficio) de todos os funcionários em determinada data.\n" +
                     "2 - Total pago em salário a todos os funcionários em determinada data.\n" +
                     "3 - Total pago em benefícios a todos os funcionários em determinada data.\n" +
@@ -160,7 +160,7 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("Opção escolhida: \nVendedor com maior valor em vendas em determinada data.\n" +
-                            "*Datas disponìveis para consulta: 12/2021 à 04/2022\nDigite o mês: ");
+                            "* Datas disponìveis para consulta: 12/2021 à 04/2022\nDigite o mês: ");
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
