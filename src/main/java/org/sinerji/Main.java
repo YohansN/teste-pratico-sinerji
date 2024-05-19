@@ -123,7 +123,7 @@ public class Main {
                     int mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     int ano = scanner.nextInt();
-                    var q1 = Service.valorTotalPagoNoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    var q1 = Service.valorTotalPagoNoMes(funcionarios, mes, ano);
                     System.out.printf("Valor mensal gasto no pagamento de salario + benefícios: R$%.2f%n", q1 );
                     break;
                 case 2:
@@ -131,7 +131,7 @@ public class Main {
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
-                    var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    var q2 = Service.valorSalarialTotalPagoNoMes(funcionarios, mes, ano);
                     System.out.printf("Total pago em salário no mês: R$%.2f%n", q2);
                     break;
                 case 3:
@@ -139,7 +139,7 @@ public class Main {
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
-                    var q3 = Service.totalDeBeneficiosMensal(funcionariosComBeneficios, String.valueOf(mes), String.valueOf(ano));
+                    var q3 = Service.totalDeBeneficiosMensal(funcionariosComBeneficios, mes, ano);
                     System.out.printf("Valor mensal destinado aos benefícios: R$%.2f%n", q3);
                     break;
                 case 4:
@@ -147,7 +147,7 @@ public class Main {
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
-                    var q4 = Service.maiorSalarioDoMes(funcionarios, String.valueOf(mes), String.valueOf(ano));
+                    var q4 = Service.maiorSalarioDoMes(funcionarios, mes, ano);
                     System.out.printf("Funcionário: " + q4);
                     break;
                 case 5:
@@ -155,7 +155,7 @@ public class Main {
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
-                    var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, String.valueOf(mes), String.valueOf(ano));
+                    var q5 = Service.maiorBeneficiadoDoMes(funcionariosComBeneficios, mes, ano);
                     System.out.printf("Funcionarios com a maior quantidade de benefícios: " + q5.getNome());
                     break;
                 case 6:
@@ -164,7 +164,7 @@ public class Main {
                     mes = scanner.nextInt();
                     System.out.print("Digite o ano: ");
                     ano = scanner.nextInt();
-                    var q6 = Service.vendedorDoMes(vendedores, String.valueOf(mes), String.valueOf(ano));
+                    var q6 = Service.vendedorDoMes(vendedores, mes, ano);
                     System.out.printf("Vendedor(a) do Mês: " + q6);
                     break;
                 case 7:
